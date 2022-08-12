@@ -47,7 +47,7 @@ class AddVehicle extends React.Component {
     delete data.models
     delete data.makes
     delete data.make
-    let {manufacturers, models, autos, updateData, loadAutos} = this.props
+    let {updateAutos} = this.props
     const url = 'http://localhost:8100/api/automobiles/';
     const fetchConfig = {
       method: "post",
@@ -62,10 +62,11 @@ class AddVehicle extends React.Component {
         color:"",
         year:"",
         vin:"",
-        model: ""
+        model_id: "",
+        make: ""
 
       });
-      updateData(loadAutos, manufacturers, models, autos)
+      updateAutos()
     }
   }
 
@@ -86,7 +87,7 @@ class AddVehicle extends React.Component {
                 <label htmlFor="year">Year</label>
               </div>
               <div className="form-floating mb-3">
-                <input onChange={this.handleChange} value={this.state.vin} placeholder="VIN" required type="text" name="vin" id="vin" className="form-control" />
+                <input onChange={this.handleChange} value={this.state.vin} placeholder="VIN" required type="text" maxLength="17" name="vin" id="vin" className="form-control" />
                 <label htmlFor="vin">VIN</label>
               </div>
               <div className="mb-3">

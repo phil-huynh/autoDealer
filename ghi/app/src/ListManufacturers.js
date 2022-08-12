@@ -9,11 +9,11 @@ let ListManufacturers = ({manufacturers}) => {
           </tr>
         </thead>
         <tbody>
-        {manufacturers.map((manufacturer) => (
+        {manufacturers ? manufacturers.map((manufacturer) => (
           <tr key={manufacturer.id}>
             <td>{manufacturer.name}</td>
           </tr>
-        ))}
+        )):null}
         </tbody>
       </table>
     </div>

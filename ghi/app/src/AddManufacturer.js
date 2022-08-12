@@ -18,7 +18,7 @@ class AddManufacturer extends React.Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    let {manufacturers, models, autos, updateData, loadManufacturers} = this.props
+    let {updateManufacturers} = this.props
     const data = {...this.state};
     const url = 'http://localhost:8100/api/manufacturers/';
     const fetchConfig = {
@@ -33,7 +33,7 @@ class AddManufacturer extends React.Component {
       this.setState({
         name: ''
       });
-      updateData(loadManufacturers, manufacturers, models, autos)
+      updateManufacturers()
     }
   }
 

@@ -32,7 +32,7 @@ class AddVehicle extends React.Component {
     e.preventDefault();
     const data = {...this.state};
     delete data.manufacturers
-    let {manufacturers, models, autos, updateData, loadModels} = this.props
+    let {updateModels} = this.props
     const url = 'http://localhost:8100/api/models/';
     const fetchConfig = {
       method: "post",
@@ -47,7 +47,7 @@ class AddVehicle extends React.Component {
         name: '',
         manufacturer_id: '',
       });
-      updateData(loadModels, manufacturers, models, autos)
+      updateModels()
     }
   }
 

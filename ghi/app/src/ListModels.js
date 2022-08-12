@@ -9,7 +9,6 @@ let Models = ({models}) => {
             <th>Name</th>
             <th>Manufacturer</th>
             <th>Picture</th>
-            <th>Picture</th>
           </tr>
         </thead>
         <tbody>

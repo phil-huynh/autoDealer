@@ -20,7 +20,7 @@ services:
       - beta-data:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_MULTIPLE_DATABASES=inventory,sales,service
+      - POSTGRES_MULTIPLE_DATABASES=inventory,sales,service,employees
       - POSTGRES_PASSWORD=test-databases
     ports:
       - 15432:5432
@@ -95,4 +95,33 @@ services:
     environment:
       DATABASE_URL: postgres://sales:password@database:5432/sales
       WAIT_HOSTS: database:5432,sales-api:8000
+      WAIT_TIMEOUT: 240
+  employees-api:
+    build:
+      context: ./employees/api
+      dockerfile: ./Dockerfile.dev
+    ports:
+      - "8070:8000"
+    volumes:
+      - ./employees/api:/app
+    depends_on:
+      - database
+    environment:
+      DATABASE_URL: postgres://employees:password@database:5432/employees
+      WAIT_HOSTS: database:5432
+      WAIT_TIMEOUT: 240
+  employees-poller:
+    build:
+      context: ./employees/poll
+      dockerfile: ./Dockerfile.dev
+    volumes:
+      - ./employees/poll:/app
+      - ./employees/api/employees_project:/app/employees_project
+      - ./employees/api/employees_rest:/app/employees_rest
+    depends_on:
+      - database
+      - employees-api
+    environment:
+      DATABASE_URL: postgres://employees:password@database:5432/employees
+      WAIT_HOSTS: database:5432,employees-api:8000
       WAIT_TIMEOUT: 240
