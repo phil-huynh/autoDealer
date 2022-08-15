@@ -53,12 +53,12 @@ def get_vehicles():
 def poll():
     while True:
         print('Sales poller polling for data')
-        try:
-            get_sales_people()
-            get_vehicle_models()
-            get_vehicles()
-        except Exception as e:
-            print(e, file=sys.stderr)
+        # try:
+        #     get_sales_people()
+        #     get_vehicle_models()
+        #     get_vehicles()
+        # except Exception as e:
+        #     print(e, file=sys.stderr)
         time.sleep(60)
 
 

@@ -22,6 +22,8 @@ def api_automobiles(request):
     else:
         try:
             content = json.loads(request.body)
+            color = content["color"].title()
+            content["color"] = color
             model_id = content["model_id"]
             model = VehicleModel.objects.get(pk=model_id)
             content["model"] = model
@@ -96,6 +98,8 @@ def api_manufacturers(request):
     else:
         try:
             content = json.loads(request.body)
+            name = content["name"].title()
+            content["name"] = name
             manufacturer = Manufacturer.objects.create(**content)
             return JsonResponse(
                 manufacturer,
@@ -167,13 +171,15 @@ def api_vehicle_models(request):
     else:
         try:
             content = json.loads(request.body)
+            name = content["name"].title()
+            content["name"] = name
             manufacturer_id = content["manufacturer_id"]
             manufacturer = Manufacturer.objects.get(id=manufacturer_id)
             content["manufacturer"] = manufacturer
             make = manufacturer.name
             car = content["name"]
-            photo = get_photo(make, car)
-            content.update(photo)
+            # photo = get_photo(make, car)
+            # content.update(photo)
             model = VehicleModel.objects.create(**content)
             return JsonResponse(
                 model,
@@ -186,6 +192,7 @@ def api_vehicle_models(request):
             )
             response.status_code = 400
             return response
+
 
 
 @require_http_methods(["DELETE", "GET", "PUT"])

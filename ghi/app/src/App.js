@@ -8,27 +8,14 @@ import ListAutos from './ListAutos'
 import MainPage from './MainPage';
 import Nav from './Nav';
 import {useState, useEffect} from 'react';
+import ListEmployees from './ListEmployees';
+import AddEmployee from './AddEmployee';
 
-function App({
-  allAutos,
-  allEmployees,
-  allManufacturers,
-  allModels,
-  allPendingSales,
-  allServiceAppointments,
-  loadServiceAppointments,
-  loadAutos,
-  loadEmployees,
-  loadPendingSales,
-  loadManufacturers,
-  loadModels
-})
-{
-
-
+const App = ({allAutos, allEmployees, allJobs, allManufacturers, allModels, allServiceAppointments, allPendingSales, loadAutos, loadEmployees, loadJobs,loadManufacturers, loadModels, loadPendingSales, loadServiceAppointments}) => {
 
   const [autos, setAutos] = useState([])
   const [employees, setEmployees] = useState([])
+  const [jobs, setJobs] = useState([])
   const [manufacturers, setManufacturers] = useState([])
   const [models, setModels] = useState([])
   const [pendingSales, setPendingSales] = useState([])
@@ -39,9 +26,11 @@ function App({
     setModels(allModels)
     setAutos(allAutos)
     setEmployees(allEmployees)
+    setJobs(allJobs)
     setServiceAppointments(allServiceAppointments)
     setPendingSales(allPendingSales)
-  }, [allAutos, allEmployees, allManufacturers, allModels, allPendingSales, allServiceAppointments])
+  }, [allAutos, allEmployees, allJobs, allManufacturers, allModels, allServiceAppointments, allPendingSales])
+
 
   const updateAutos = async ()=>{
     let list = await loadAutos()
@@ -50,7 +39,11 @@ function App({
 
   const updateEmployees = async ()=>{
     let list = await loadEmployees()
-    setManufacturers(list)
+    setEmployees(list)
+  }
+  const updateJobs = async ()=>{
+    let list = await loadJobs()
+    setJobs(list)
   }
 
   const updateManufacturers = async ()=>{
@@ -72,10 +65,6 @@ function App({
     let list = await loadServiceAppointments()
     setServiceAppointments(list)
   }
-
-
-
-
 
   return (
     <BrowserRouter>
@@ -139,19 +128,20 @@ function App({
             <Route
               index
               element={
-                <ListAutos
+                <ListEmployees
                   employees={employees}
                 />
-            }
+              }
             />
-            {/* <Route
+            <Route
               path="new"
               element={
-                <AddVehicle
-
+                <AddEmployee
+                  joblist={jobs}
+                  updateEmployees={updateEmployees}
                 />
               }
-            /> */}
+            />
           </Route>
         </Routes>
       </div>

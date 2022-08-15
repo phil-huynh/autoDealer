@@ -16,7 +16,7 @@ class VehicleModelEncoder(ModelEncoder):
     properties = [
         "id",
         "name",
-        "picture_url",
+        # "picture_url",
         "manufacturer",
     ]
     encoders = {

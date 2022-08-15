@@ -1,6 +1,5 @@
 let ListAutos = ({autos}) => {
   return (
-
     <div>
       <h2>Vehicles</h2>
       <table  className="table table-striped">

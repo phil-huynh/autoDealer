@@ -9,6 +9,35 @@ root.render(
   </React.StrictMode>
 );
 
+async function loadAutos() {
+  const response = await fetch('http://localhost:8100/api/automobiles/');
+  if (response.ok) {
+    const data = await response.json();
+    return data.autos
+  } else {
+    console.error(response);
+  }
+}
+
+async function loadEmployees() {
+  const response = await fetch('http://localhost:8070/api/employees/');
+  if (response.ok) {
+    const data = await response.json();
+    return data.employees
+  } else {
+    console.error(response);
+  }
+}
+
+async function loadJobs() {
+  const response = await fetch('http://localhost:8070/api/employees/jobs/');
+  if (response.ok) {
+    const data = await response.json();
+    return data.jobs
+  } else {
+    console.error(response);
+  }
+}
 
 async function loadManufacturers() {
   const response = await fetch('http://localhost:8100/api/manufacturers/');
@@ -30,21 +59,11 @@ async function loadModels() {
   }
 }
 
-async function loadAutos() {
-  const response = await fetch('http://localhost:8100/api/automobiles/');
+async function loadPendingSales() {
+  const response = await fetch('http://localhost:8090/api/pending_sales/');
   if (response.ok) {
     const data = await response.json();
-    return data.autos
-  } else {
-    console.error(response);
-  }
-}
-
-async function loadEmployees() {
-  const response = await fetch('http://localhost:8070/api/employees/');
-  if (response.ok) {
-    const data = await response.json();
-    return data.employees
+    return data.pending_sales
   } else {
     console.error(response);
   }
@@ -60,40 +79,33 @@ async function loadServiceAppointments() {
   }
 }
 
-async function loadPendingSales() {
-  const response = await fetch('http://localhost:8090/api/pending_sales/');
-  if (response.ok) {
-    const data = await response.json();
-    return data.pending_sales
-  } else {
-    console.error(response);
-  }
-}
-
 
 async function updateRender() {
-  const manufacturers = await loadManufacturers()
-  const models = await loadModels()
   const autos =  await loadAutos()
   const employees = await loadEmployees()
-  const serviceAppointments = await loadServiceAppointments()
+  const jobs = await loadJobs()
+  const manufacturers = await loadManufacturers()
+  const models = await loadModels()
   const pendingSales = await loadPendingSales()
+  const serviceAppointments = await loadServiceAppointments()
 
   root.render(
     <React.StrictMode>
       <App
-        allManufacturers={manufacturers}
-        allModels={models}
         allAutos={autos}
         allEmployees={employees}
-        allServiceAppointments={serviceAppointments}
+        allJobs={jobs}
+        allManufacturers={manufacturers}
+        allModels={models}
         allPendingSales={pendingSales}
-        loadManufacturers={loadManufacturers}
-        loadModels={loadModels}
+        allServiceAppointments={serviceAppointments}
         loadAutos={loadAutos}
         loadEmployees={loadEmployees}
-        loadServiceAppointments={loadServiceAppointments}
+        loadJobs={loadJobs}
+        loadManufacturers={loadManufacturers}
+        loadModels={loadModels}
         loadPendingSales={loadPendingSales}
+        loadServiceAppointments={loadServiceAppointments}
       />
     </React.StrictMode>
   );

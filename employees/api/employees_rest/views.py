@@ -16,7 +16,7 @@ class DepartmentListEncoder(ModelEncoder):
     properties = [ "id", "name"]
 
 
-class JobTitleListEncoder(ModelEncoder):
+class JobListEncoder(ModelEncoder):
     model = Job
     properties = ["id", "title", "department"]
     encoders = {
@@ -33,7 +33,7 @@ class EmployeeListEncoder(ModelEncoder):
         "id"
     ]
     encoders = {
-        "job": JobTitleListEncoder()
+        "job": JobListEncoder()
     }
 
 
@@ -48,6 +48,10 @@ def api_list_employees(request):
         )
     else:
         content = json.loads(request.body)
+        formatted_first_name = content["first_name"].title()
+        formatted_last_name = content["last_name"].title()
+        content["first_name"] = formatted_first_name
+        content["last_name"] = formatted_last_name
         try:
             job_id = content["job"]
             job = Job.objects.get(id=job_id)
@@ -80,7 +84,12 @@ def api_show_employee(request, pk):
         return JsonResponse({"deleted": count > 0})
     else:
         content = json.loads(request.body)
-
+        if content["first_name"]:
+            formatted_first_name = content["first_name"].title()
+            content["first_name"] = formatted_first_name
+        if content["last_name"]:
+            formatted_last_name = content["last_name"].title()
+            content["last_name"] = formatted_last_name
         Employee.objects.filter(employee_number=pk).update(**content)
         employee = Employee.objects.get(employee_number=pk)
         return JsonResponse(
@@ -89,6 +98,35 @@ def api_show_employee(request, pk):
             safe=False,
         )
 
+
+@require_http_methods(["GET", "POST"])
+def api_get_jobs(request):
+    if request.method == "GET":
+        jobs = Job.objects.all()
+        return JsonResponse(
+            {"jobs": jobs},
+            encoder=JobListEncoder,
+            safe=False,
+        )
+    else:
+        content = json.loads(request.body)
+        title = content["title"].title()
+        content["title"] = title
+        try:
+            dept_id = content["department"]
+            department = Department.objects.get(id=dept_id)
+            content["department"] = department
+        except Job.DoesNotExist:
+            return JsonResponse(
+                {"message": "Invalid Department id"},
+                status=400,
+            )
+        job = Job.objects.create(**content)
+        return JsonResponse(
+            job,
+            encoder=JobListEncoder,
+            safe=False,
+        )
 
 
 @require_http_methods(["GET"])

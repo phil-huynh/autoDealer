@@ -5,6 +5,7 @@ from .views import (
     api_show_employee,
     api_get_sales_people,
     api_get_technicians,
+    api_get_jobs,
     # api_upload_numbers,
 
 )
@@ -29,6 +30,11 @@ urlpatterns = [
         "employees/sales_people/",
         api_get_sales_people,
         name="api_get_sales_people",
+    ),
+    path(
+        "employees/jobs/",
+        api_get_jobs,
+        name="api_get_jobs",
     ),
     # path(
     #     "numbers/",

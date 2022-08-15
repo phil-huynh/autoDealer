@@ -8,7 +8,7 @@ let Models = ({models}) => {
           <tr>
             <th>Name</th>
             <th>Manufacturer</th>
-            <th>Picture</th>
+            {/* <th>Picture</th> */}
           </tr>
         </thead>
         <tbody>
@@ -16,9 +16,9 @@ let Models = ({models}) => {
           <tr key={model.id}>
             <td>{model.name}</td>
             <td>{model.manufacturer.name}</td>
-            <td>
+            {/* <td>
               <img src={model.picture_url} alt="Unavailable" width="330" height="190"/>
-            </td>
+            </td> */}
           </tr>
         )): null}
         </tbody>
