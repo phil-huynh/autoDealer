@@ -15,7 +15,6 @@ class VehicleModelVO(models.Model):
     name = models.CharField(max_length=100)
     href = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
-    picture_url = models.URLField()
     model_id = models.SmallIntegerField(null=True)
 
     def __str__(self):
@@ -28,6 +27,7 @@ class VehicleVO(models.Model):
     vin = models.CharField(max_length=17, unique=True)
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
+    odometer = models.IntegerField(null=True)
 
     def __str__(self):
         return f"{self.vin} -- {self.make} {self.model}"

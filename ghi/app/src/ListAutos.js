@@ -5,21 +5,23 @@ let ListAutos = ({autos}) => {
       <table  className="table table-striped">
         <thead>
           <tr>
-            <th>VIN</th>
-            <th>Color</th>
-            <th>Year</th>
-            <th>Model</th>
             <th>Manufacturer</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Odometer</th>
+            <th>Color</th>
+            <th>VIN</th>
           </tr>
         </thead>
         <tbody>
         {autos ? autos.map((auto) => (
           <tr key={auto.id}>
-            <td>{auto.vin}</td>
-            <td>{auto.color}</td>
-            <td>{auto.year}</td>
-            <td>{auto.model.name}</td>
             <td>{auto.model.manufacturer.name}</td>
+            <td>{auto.model.name}</td>
+            <td>{auto.year}</td>
+            {auto.odometer ? <td>{auto.odometer}</td>: null}
+            <td>{auto.color}</td>
+            <td>{auto.vin}</td>
           </tr>
         )): null}
         </tbody>

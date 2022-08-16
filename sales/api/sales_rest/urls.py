@@ -7,12 +7,12 @@ from .views import (
 
 urlpatterns = [
     path(
-        "pending_sales/",
+        "pending-sales/",
         api_list_pending_sales,
         name="api_list_pending_sales"
     ),
     path(
-        "pending_sales/<int:interaction_number>",
+        "pending-sales/<int:interaction_number>",
         api_show_sales_interaction,
         name="api_show_sales_interaction"
     ),

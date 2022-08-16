@@ -13,7 +13,6 @@ class VehicleModelVO(models.Model):
     name = models.CharField(max_length=100)
     href = models.CharField(max_length=100)
     manufacturer = models.CharField(max_length=100)
-    picture_url = models.URLField()
     model_id = models.SmallIntegerField(null=True)
 
     def __str__(self):
@@ -25,6 +24,9 @@ class VehicleVO(models.Model):
     vin = models.CharField(max_length=17, unique=True)
     make = models.CharField(max_length=50)
     model = models.CharField(max_length=50)
+    odometer = models.IntegerField(null=True)
+    price = models.IntegerField(null=True)
+    pending = models.BooleanField(null=True)
 
     def __str__(self):
         return f"{self.vin} -- {self.make} {self.model}"
@@ -56,15 +58,14 @@ def increment_number(selection):
 
 class PendingSale(models.Model):
     interaction_number = models.SmallIntegerField(default=0 , null=True)
-    vin = models.CharField(max_length=17, unique=True, default="Waiting for VIN")
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     date_and_time = models.DateTimeField(auto_now=True ,null=True)
-    price = models.SmallIntegerField()
     made_downpayment = models.BooleanField(default=False)
     loan_approved = models.BooleanField(default=False)
     paid_full_cost = models.BooleanField(default=False)
     vehicle_registered = models.BooleanField(default=False)
+    vehicle_delivered = models.BooleanField(default=True)
     vehicle = models.ForeignKey(
         VehicleVO,
         related_name="interested_customer",

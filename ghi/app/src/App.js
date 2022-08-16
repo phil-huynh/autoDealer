@@ -10,6 +10,10 @@ import Nav from './Nav';
 import {useState, useEffect} from 'react';
 import ListEmployees from './ListEmployees';
 import AddEmployee from './AddEmployee';
+import ListAppointments from './ListAppointments';
+import AddAppointment from './AddAppointment';
+import ListPendingSales from './ListPendingSales';
+import AddPendingSale from './AddPendingSale';
 
 const App = ({allAutos, allEmployees, allJobs, allManufacturers, allModels, allServiceAppointments, allPendingSales, loadAutos, loadEmployees, loadJobs,loadManufacturers, loadModels, loadPendingSales, loadServiceAppointments}) => {
 
@@ -119,6 +123,8 @@ const App = ({allAutos, allEmployees, allJobs, allManufacturers, allModels, allS
               path="new"
               element={
                 <AddVehicle
+                  models={models}
+                  manufacturers={manufacturers}
                   updateAutos={updateAutos}
                 />
               }
@@ -139,6 +145,45 @@ const App = ({allAutos, allEmployees, allJobs, allManufacturers, allModels, allS
                 <AddEmployee
                   joblist={jobs}
                   updateEmployees={updateEmployees}
+                />
+              }
+            />
+          </Route>
+          <Route path="appointments">
+            <Route
+              index
+              element={
+                <ListAppointments
+                  appointments={serviceAppointments}
+                />
+              }
+            />
+            <Route
+              path="new"
+              element={
+                <AddAppointment
+                  employees={employees}
+                  updateAppointments={updateServiceAppointments}
+                />
+              }
+            />
+          </Route>
+          <Route path="pending-sales">
+            <Route
+              index
+              element={
+                <ListPendingSales
+                  pendingSales={pendingSales}
+                />
+              }
+            />
+            <Route
+              path="new"
+              element={
+                <AddPendingSale
+                  autos={autos}
+                  employees={employees}
+                  updatePendingSales={updatePendingSales}
                 />
               }
             />

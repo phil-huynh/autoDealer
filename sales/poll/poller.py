@@ -33,7 +33,6 @@ def get_vehicle_models():
             name = model["name"],
             href = model["href"],
             manufacturer = model["manufacturer"]["name"],
-            picture_url = model["picture_url"],
             model_id = model["id"]
         )
 
@@ -46,19 +45,22 @@ def get_vehicles():
             year = auto["year"],
             vin = auto["vin"],
             make = auto["model"]["manufacturer"]["name"],
-            model = auto["model"]["name"]
+            model = auto["model"]["name"],
+            odometer = auto["odometer"],
+            price = auto["price"],
+            pending = auto["pending"]
         )
 
 
 def poll():
     while True:
         print('Sales poller polling for data')
-        # try:
-        #     get_sales_people()
-        #     get_vehicle_models()
-        #     get_vehicles()
-        # except Exception as e:
-        #     print(e, file=sys.stderr)
+        try:
+            get_sales_people()
+            get_vehicle_models()
+            get_vehicles()
+        except Exception as e:
+            print(e, file=sys.stderr)
         time.sleep(60)
 
 

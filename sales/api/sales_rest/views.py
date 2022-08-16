@@ -23,7 +23,6 @@ class VehicleModelVOEncoder(ModelEncoder):
         "model_id",
         "href",
         "manufacturer",
-        "picture_url",
     ]
 
 
@@ -34,7 +33,9 @@ class VehicleVOEncoder(ModelEncoder):
         "make",
         "model",
         "year",
-        "color"
+        "color",
+        "odometer",
+        "price",
     ]
 
 
@@ -81,7 +82,7 @@ def api_list_pending_sales(request):
                 status=400,
             )
         try:
-            vin= content["vin"]
+            vin= content["vehicle"]
             vehicle = VehicleVO.objects.get(vin=vin)
             content["vehicle"] = vehicle
         except VehicleVO.DoesNotExist:

@@ -23,7 +23,6 @@ class VehicleModelVOEncoder(ModelEncoder):
     "model_id",
     "href",
     "manufacturer",
-    "picture_url",
     ]
 
 
@@ -34,7 +33,8 @@ class VehicleVOEncoder(ModelEncoder):
     "make",
     "model",
     "year",
-    "color"
+    "color",
+    "odometer"
     ]
 
 
@@ -66,6 +66,10 @@ def api_list_service_appointments(request):
         )
     else:
         content = json.loads(request.body)
+        formatted_first_name = content["first_name"].title()
+        formatted_last_name = content["last_name"].title()
+        content["first_name"] = formatted_first_name
+        content["last_name"] = formatted_last_name
         try:
             employee_number= content["technician"]
             technician = TechnicianVO.objects.get(employee_number=employee_number)
@@ -97,6 +101,12 @@ def api_show_service_appointment(request, ticket_number):
         return JsonResponse({"deleted": count > 0})
     else:
         content = json.loads(request.body)
+        if content["first_name"]:
+            formatted_first_name = content["first_name"].title()
+            content["first_name"] = formatted_first_name
+        if content["last_name"]:
+            formatted_last_name = content["last_name"].title()
+            content["last_name"] = formatted_last_name
         ServiceAppointment.objects.filter(ticket_number=ticket_number).update(**content)
         ticket = ServiceAppointment.objects.get(ticket_number=ticket_number)
         return JsonResponse(
