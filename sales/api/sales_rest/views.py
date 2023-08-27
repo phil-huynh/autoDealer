@@ -43,11 +43,11 @@ class PendingSaleEncoder(ModelEncoder):
     model=PendingSale
     properties = [
         "interaction_number",
-        "vin",
+        # "vin",
         "first_name",
         "last_name",
         "date_and_time",
-        "price",
+        # "price",
         "made_downpayment",
         "loan_approved",
         "paid_full_cost",
@@ -66,14 +66,16 @@ def api_list_pending_sales(request):
     if request.method == "GET":
         pending_sales = PendingSale.objects.all()
         return JsonResponse(
-            {"pending_sales": pending_sales},
+            pending_sales,
             encoder=PendingSaleEncoder,
             safe=False,
         )
     else:
         content = json.loads(request.body)
+        print("sale content =====>", content)
         try:
-            employee_number= content["sales_person"]
+            employee_number= int(content["sales_person"])
+            print(employee_number, type(employee_number))
             sales_person = SalesPersonVO.objects.get(employee_number=employee_number)
             content["sales_person"] = sales_person
         except SalesPersonVO.DoesNotExist:

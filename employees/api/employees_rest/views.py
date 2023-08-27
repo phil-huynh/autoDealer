@@ -42,20 +42,18 @@ def api_list_employees(request):
     if request.method == "GET":
         employees = Employee.objects.all()
         return JsonResponse(
-            {"employees": employees},
+            employees,
             encoder=EmployeeListEncoder,
             safe=False,
         )
     else:
         content = json.loads(request.body)
-        formatted_first_name = content["first_name"].title()
-        formatted_last_name = content["last_name"].title()
-        content["first_name"] = formatted_first_name
-        content["last_name"] = formatted_last_name
+        content["first_name"] = content["first_name"].title()
+        content["last_name"] = content["last_name"].title()
         try:
             job_id = content["job"]
-            job = Job.objects.get(id=job_id)
-            content["job"] = job
+            # job = Job.objects.get(id=job_id)
+            content["job"] = Job.objects.get(id=job_id)
         except Job.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid job id"},
@@ -85,11 +83,9 @@ def api_show_employee(request, pk):
     else:
         content = json.loads(request.body)
         if content["first_name"]:
-            formatted_first_name = content["first_name"].title()
-            content["first_name"] = formatted_first_name
+            content["first_name"] = content["first_name"].title()
         if content["last_name"]:
-            formatted_last_name = content["last_name"].title()
-            content["last_name"] = formatted_last_name
+            content["last_name"] = content["last_name"].title()
         Employee.objects.filter(employee_number=pk).update(**content)
         employee = Employee.objects.get(employee_number=pk)
         return JsonResponse(
@@ -104,18 +100,18 @@ def api_get_jobs(request):
     if request.method == "GET":
         jobs = Job.objects.all()
         return JsonResponse(
-            {"jobs": jobs},
+            jobs,
             encoder=JobListEncoder,
             safe=False,
         )
     else:
         content = json.loads(request.body)
-        title = content["title"].title()
-        content["title"] = title
+        # title = content["title"].title()
+        content["title"] = content["title"].title()
         try:
             dept_id = content["department"]
-            department = Department.objects.get(id=dept_id)
-            content["department"] = department
+            # department = Department.objects.get(id=dept_id)
+            content["department"] = Department.objects.get(id=dept_id)
         except Job.DoesNotExist:
             return JsonResponse(
                 {"message": "Invalid Department id"},
@@ -134,7 +130,7 @@ def api_get_technicians(request):
         job = Job.objects.get(title="Technician")
         technicians = Employee.objects.filter(job=job)
         return JsonResponse(
-            {"technicians": technicians},
+            technicians,
             encoder=EmployeeListEncoder,
             safe=False,
         )
@@ -145,7 +141,7 @@ def api_get_sales_people(request):
     job = Job.objects.get(title="Sales Person")
     sales_people = Employee.objects.filter(job=job)
     return JsonResponse(
-        {"sales_people": sales_people},
+        sales_people,
         encoder=EmployeeListEncoder,
         safe=False,
     )

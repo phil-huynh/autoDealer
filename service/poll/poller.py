@@ -5,6 +5,7 @@ import time
 import json
 import requests
 
+
 sys.path.append("")
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "service_project.settings")
 django.setup()
@@ -15,18 +16,18 @@ from service_rest.models import TechnicianVO, VehicleModelVO, VehicleVO
 def get_techinicians():
     response = requests.get("http://employees-api:8000/api/employees/technicians/")
     content = json.loads(response.content)
-    for technician in content["technicians"]:
+    for technician in content:
         TechnicianVO.objects.update_or_create(
-                first_name= technician["first_name"],
-                last_name= technician["last_name"],
-                employee_number= technician["employee_number"],
-                tech_id=technician["id"]
+            first_name= technician["first_name"],
+            last_name= technician["last_name"],
+            employee_number= technician["employee_number"],
+            tech_id=technician["id"]
         )
 
 def get_vehicle_models():
     response = requests.get("http://inventory-api:8000/api/models/")
     content = json.loads(response.content)
-    for model in content["models"]:
+    for model in content:
         VehicleModelVO.objects.update_or_create(
             name = model["name"],
             href = model["href"],
@@ -37,7 +38,7 @@ def get_vehicle_models():
 def get_vehicles():
     response = requests.get("http://inventory-api:8000/api/automobiles/")
     content = json.loads(response.content)
-    for auto in content["autos"]:
+    for auto in content:
         VehicleVO.objects.update_or_create(
             color = auto["color"],
             year = auto["year"],

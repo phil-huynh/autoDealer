@@ -60,18 +60,18 @@ def api_list_service_appointments(request):
     if request.method == "GET":
         appointments = ServiceAppointment.objects.all()
         return JsonResponse(
-            {"appointments": appointments},
+            appointments,
             encoder=ServiceAppointmentEncoder,
             safe=False,
         )
     else:
         content = json.loads(request.body)
-        formatted_first_name = content["first_name"].title()
-        formatted_last_name = content["last_name"].title()
-        content["first_name"] = formatted_first_name
-        content["last_name"] = formatted_last_name
+        # formatted_first_name = content["first_name"].title()
+        # formatted_last_name = content["last_name"].title()
+        content["first_name"] = content["first_name"].title()
+        content["last_name"] = content["last_name"].title()
         try:
-            employee_number= content["technician"]
+            employee_number = content["technician"]
             technician = TechnicianVO.objects.get(employee_number=employee_number)
             content["technician"] = technician
         except TechnicianVO.DoesNotExist:
@@ -102,11 +102,11 @@ def api_show_service_appointment(request, ticket_number):
     else:
         content = json.loads(request.body)
         if content["first_name"]:
-            formatted_first_name = content["first_name"].title()
-            content["first_name"] = formatted_first_name
+            # formatted_first_name = content["first_name"].title()
+            content["first_name"] = content["first_name"].title()
         if content["last_name"]:
-            formatted_last_name = content["last_name"].title()
-            content["last_name"] = formatted_last_name
+            # formatted_last_name = content["last_name"].title()
+            content["last_name"] = content["last_name"].title()
         ServiceAppointment.objects.filter(ticket_number=ticket_number).update(**content)
         ticket = ServiceAppointment.objects.get(ticket_number=ticket_number)
         return JsonResponse(

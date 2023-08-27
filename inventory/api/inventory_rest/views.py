@@ -16,8 +16,9 @@ def api_automobiles(request):
     if request.method == "GET":
         autos = Automobile.objects.all()
         return JsonResponse(
-            {"autos": autos},
+            autos,
             encoder=AutomobileEncoder,
+            safe=False
         )
     else:
         try:
@@ -92,8 +93,9 @@ def api_manufacturers(request):
     if request.method == "GET":
         manufacturers = Manufacturer.objects.all().order_by("name")
         return JsonResponse(
-            {"manufacturers": manufacturers},
+            manufacturers,
             encoder=ManufacturerEncoder,
+            safe=False
         )
     else:
         try:
@@ -165,8 +167,10 @@ def api_vehicle_models(request):
     if request.method == "GET":
         models = VehicleModel.objects.all().order_by("name")
         return JsonResponse(
-            {"models": models},
-            encoder=VehicleModelEncoder
+            models,
+            encoder=VehicleModelEncoder,
+            safe=False
+
         )
     else:
         try:

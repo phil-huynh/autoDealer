@@ -79,7 +79,7 @@ class PendingSale(models.Model):
     )
 
     def __str__(self):
-        return f"{self.interaction_number} -- {self.vin} -- {self.last_name}, {self.first_name}"
+        return f"{self.interaction_number} -- {self.vehicle.vin} -- {self.last_name}, {self.first_name}"
 
     def save(self, *args, **kwargs):
         vin = self.vehicle.vin

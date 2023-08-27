@@ -17,7 +17,7 @@ from sales_rest.models import SalesPersonVO, VehicleModelVO, VehicleVO
 def get_sales_people():
     response = requests.get("http://employees-api:8000/api/employees/sales_people")
     content = json.loads(response.content)
-    for person in content["sales_people"]:
+    for person in content:
         SalesPersonVO.objects.update_or_create(
             first_name = person["first_name"],
             last_name = person["last_name"],
@@ -28,7 +28,7 @@ def get_sales_people():
 def get_vehicle_models():
     response = requests.get("http://inventory-api:8000/api/models/")
     content = json.loads(response.content)
-    for model in content["models"]:
+    for model in content:
         VehicleModelVO.objects.update_or_create(
             name = model["name"],
             href = model["href"],
@@ -39,7 +39,7 @@ def get_vehicle_models():
 def get_vehicles():
     response = requests.get("http://inventory-api:8000/api/automobiles/")
     content = json.loads(response.content)
-    for auto in content["autos"]:
+    for auto in content:
         VehicleVO.objects.update_or_create(
             color = auto["color"],
             year = auto["year"],
