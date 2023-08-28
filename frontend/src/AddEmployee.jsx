@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Paper from "@mui/material/Paper";
 import Fade from "@mui/material/Fade";
+import CloseIcon from '@mui/icons-material/Close';
 import { useStore } from "./ContextStore.jsx";
 
 
@@ -72,6 +73,10 @@ export default function AddEmployee() {
             sx={style}
             elevation={10}
           >
+            <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
+              <h2>New Employee</h2>
+              <CloseIcon onClick={() => setAddEmployeeModal(false)} sx={{cursor: "pointer"}}/>
+            </div>
             <form onSubmit={handleSubmit} id="create-conference-form">
               <div className="form-floating mb-3">
                 <input onChange={handleChange} value={employeeData.first_name} placeholder="First Name" required type="text" name="first_name" id="firstName" className="form-control" />
@@ -90,7 +95,10 @@ export default function AddEmployee() {
                   }
                 </select>
               </div>
-              <button className="btn btn-primary">Create</button>
+              <div style={{display: "flex", justifyContent: "flex-end"}}>
+              <button className="btn btn-secondary" onClick={() => setAddEmployeeModal(false)}>Cancel</button>
+              <button className="btn btn-primary" onClick={handleSubmit} style={{marginLeft: "2rem"}}>Create</button>
+            </div>
             </form>
           </Paper>
         </Fade>

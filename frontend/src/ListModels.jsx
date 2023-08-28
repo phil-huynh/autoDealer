@@ -46,6 +46,14 @@ const Models = () => {
                 Delete
               </button>
             </td>
+            <td>
+              <button
+                className="btn btn-primary"
+                // onClick={() => setEditVehicleModal(true)}
+              >
+                Edit
+              </button>
+            </td>
           </tr>
         ))}
         </tbody>

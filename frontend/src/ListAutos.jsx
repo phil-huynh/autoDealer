@@ -56,10 +56,10 @@ let ListAutos = () => {
             <td>
               <button
                 className="btn btn-primary"
-                onClick={() => setEditVehicleModal(true)}
+                // onClick={() => setEditVehicleModal(true)}
               >
                 Edit
-            </button>
+              </button>
             </td>
           </tr>
         ))}

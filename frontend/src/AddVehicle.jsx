@@ -3,6 +3,7 @@ import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Paper from "@mui/material/Paper";
 import Fade from "@mui/material/Fade";
+import CloseIcon from '@mui/icons-material/Close';
 
 import { useStore } from "./ContextStore.jsx";
 
@@ -80,7 +81,7 @@ export default function AddVehicle() {
         aria-labelledby="opportunity-data-card"
         aria-describedby="opportunity-probability-data"
         open={addVehicleModal}
-        onClose={() => setAddVehicleModal(false)}
+        // onClose={() => setAddVehicleModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -92,8 +93,11 @@ export default function AddVehicle() {
             sx={style}
             elevation={10}
           >
-            <h1>Add a Vehicle</h1>
-            <form onSubmit={handleSubmit} id="create-conference-form">
+            <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
+              <h2>Add a Vehicle</h2>
+              <CloseIcon onClick={() => setAddVehicleModal(false)} sx={{cursor: "pointer"}}/>
+            </div>
+            <form id="create-conference-form">
               <div className="form-floating mb-3">
                 <input onChange={handleChange} value={vehicle.color} placeholder="Color" required type="text" name="color" id="color" className="form-control" />
                 <label htmlFor="color">Color</label>
@@ -133,7 +137,10 @@ export default function AddVehicle() {
                   }
                 </select>
               </div>
-              <button className="btn btn-primary">Create</button>
+              <div style={{display: "flex", justifyContent: "flex-end"}}>
+                <button className="btn btn-secondary" onClick={() => setAddVehicleModal(false)}>Cancel</button>
+                <button className="btn btn-primary" onClick={handleSubmit} style={{marginLeft: "2rem"}}>Create</button>
+              </div>
             </form>
           </Paper>
         </Fade>

@@ -69,7 +69,7 @@ export default function EditVehicle() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await request.post(urls.autos, vehicle, reset)
+    // await request.post(urls.autos, vehicle, reset)
   }
 
   return (

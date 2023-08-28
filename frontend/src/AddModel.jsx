@@ -4,6 +4,7 @@ import Backdrop from "@mui/material/Backdrop";
 import Paper from "@mui/material/Paper";
 import Fade from "@mui/material/Fade";
 import { useStore } from "./ContextStore.jsx";
+import CloseIcon from '@mui/icons-material/Close';
 
 
 const style = {
@@ -62,7 +63,7 @@ export default function AddModel() {
         aria-labelledby="opportunity-data-card"
         aria-describedby="opportunity-probability-data"
         open={addModelModal}
-        onClose={() => setAddModelModal(false)}
+        // onClose={() => setAddModelModal(false)}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -74,14 +75,33 @@ export default function AddModel() {
             sx={style}
             elevation={10}
           >
-            <h1>Add a Model</h1>
-          <form onSubmit={handleSubmit} id="create-model-form">
+            <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
+              <h2>Add a Model</h2>
+              <CloseIcon onClick={() => setAddModelModal(false)} sx={{cursor: "pointer"}}/>
+            </div>
+          <form id="create-model-form">
             <div className="form-floating mb-3">
-              <input onChange={handleChange} value={data.name} placeholder="Model" required type="text" name="name" id="name" className="form-control" />
+              <input
+                required
+                className="form-control"
+                type="text"
+                id="name"
+                placeholder="Model"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+              />
               <label htmlFor="name">Name</label>
             </div>
             <div className="mb-3">
-              <select onChange={handleChange} value={data.manufacturer_id} required name="manufacturer_id" id="manufucturer" className="form-select">
+              <select
+                required
+                className="form-select"
+                id="manufucturer"
+                name="manufacturer_id"
+                value={data.manufacturer_id}
+                onChange={handleChange}
+              >
                 <option value="">Choose a manufacturer</option>
                 {manufacturers?.map(manufacturer => (
                     <option
@@ -94,7 +114,10 @@ export default function AddModel() {
                 }
               </select>
             </div>
-            <button className="btn btn-primary">Create</button>
+            <div style={{display: "flex", justifyContent: "flex-end"}}>
+              <button className="btn btn-secondary" onClick={() => setAddModelModal(false)}>Cancel</button>
+              <button className="btn btn-primary" onClick={handleSubmit} style={{marginLeft: "2rem"}}>Create</button>
+            </div>
           </form>
           </Paper>
         </Fade>

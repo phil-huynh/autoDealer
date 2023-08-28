@@ -44,6 +44,14 @@ const ListEmployees = () => {
                 DELETE
               </button>
             </td>
+            <td>
+              <button
+                className="btn btn-primary"
+                // onClick={() => setEditVehicleModal(true)}
+              >
+                Edit
+              </button>
+            </td>
           </tr>
         ))}
         </tbody>
