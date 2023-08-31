@@ -1,21 +1,47 @@
 import { useEffect } from "react"
 import { useStore } from "./ContextStore"
 import AddAppointment from "./AddAppointment"
+import DeleteModal from "./DeleteModal"
 
 let ListAppointments = () => {
 
-  const { serviceAppointments, loadServiceAppointments, urls, request, addAppointmentModal, setAddAppointmentModal} = useStore()
+  const {
+    serviceAppointments,
+    loadServiceAppointments,
+    urls,
+    request,
+    addAppointmentModal,
+    setAddAppointmentModal,
+    selection,
+    setSelection,
+    deleteModal,
+    setDeleteModal
+  } = useStore()
 
   useEffect(() => {
     loadServiceAppointments()
   }, [])
 
-  const cancel = (id) => {
-    request.delete(urls.appointment(id), loadServiceAppointments)
-  }
+  useEffect(() => {
+    selection && setDeleteModal(true)
+  }, [selection])
+
+  // const cancel = (id) => {
+  //   request.delete(urls.appointment(id), loadServiceAppointments)
+  // }
 
   return (
     <div style={{marginTop: "3rem"}}>
+      {deleteModal ?
+        <DeleteModal
+          url={urls.appointment(selection.ticket_number)}
+          callback={loadServiceAppointments}
+          setSelection={setSelection}
+          item={`Appointment #${selection.ticket_number} for ${selection.first_name} ${selection.last_name}`}
+          />
+        :
+        null
+      }
       <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
         <h2>Service Appointments</h2>
         <button className="btn btn-success" onClick={() => setAddAppointmentModal(true)}>Add an Appointment</button>
@@ -49,7 +75,7 @@ let ListAppointments = () => {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => cancel(appointment.ticket_number)}
+                  onClick={() => setSelection(appointment)}
                 >
                   CANCEL
                 </button>

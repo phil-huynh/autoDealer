@@ -1,21 +1,42 @@
 import { useEffect } from "react";
 import { useStore } from "./ContextStore";
 import AddEmployee from "./AddEmployee";
+import DeleteModal from "./DeleteModal";
 
 const ListEmployees = () => {
 
-  const { employees, loadEmployees, urls, request, addEmployeeModal, setAddEmployeeModal} = useStore()
+  const {
+    employees,
+    loadEmployees,
+    urls,
+    addEmployeeModal,
+    setAddEmployeeModal,
+    selection,
+    setSelection,
+    deleteModal,
+    setDeleteModal
+  } = useStore()
 
   useEffect(() => {
     loadEmployees()
   }, [])
 
-  const deleteEmp = (id) => {
-    request.delete(urls.employee(id), loadEmployees)
-  }
+  useEffect(() => {
+    selection && setDeleteModal(true)
+  }, [selection])
 
   return (
     <div style={{marginTop: "3rem"}}>
+      {deleteModal ?
+        <DeleteModal
+          url={urls.employee(selection.employee_number)}
+          callback={loadEmployees}
+          setSelection={setSelection}
+          item={`${selection.first_name} ${selection.last_name}`}
+          />
+        :
+        null
+      }
       <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
         <h2>Employees</h2>
         <button className="btn btn-success" onClick={() => setAddEmployeeModal(true)}>Add an Employee </button>
@@ -39,7 +60,7 @@ const ListEmployees = () => {
             <td>
               <button
                 className="btn btn-danger"
-                onClick={() => deleteEmp(employee.employee_number)}
+                onClick={() => setSelection(employee)}
               >
                 DELETE
               </button>

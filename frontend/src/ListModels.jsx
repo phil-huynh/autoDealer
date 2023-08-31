@@ -1,23 +1,43 @@
 import { useEffect } from "react";
 import { useStore } from "./ContextStore";
 import AddModel from "./AddModel";
+import DeleteModal from "./DeleteModal";
 
 const Models = () => {
 
-  const { models, loadModels, urls, request, setAddModelModal, addModelModal } = useStore()
+  const {
+    models,
+    loadModels,
+    urls,
+    setAddModelModal,
+    addModelModal,
+    selection,
+    setSelection,
+    deleteModal,
+    setDeleteModal
+  } = useStore()
 
   useEffect(() => {
     loadModels()
   }, [])
 
-
-  const removeModel = (id) => {
-    request.delete(urls.model(id), loadModels)
-  }
+  useEffect(() => {
+    selection && setDeleteModal(true)
+  }, [selection])
 
   return (
 
     <div style={{marginTop: "3rem"}}>
+      {deleteModal ?
+        <DeleteModal
+          url={urls.model(selection.id)}
+          callback={loadModels}
+          setSelection={setSelection}
+          item={`${selection.manufacturer.name} ${selection.name}`}
+          />
+        :
+        null
+      }
       <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
         <h2>Models</h2>
         <button className="btn btn-success" onClick={() => setAddModelModal(true)}>Add a Model</button>
@@ -41,7 +61,7 @@ const Models = () => {
             <td>
               <button
                 className="btn btn-danger"
-                onClick={() => removeModel(model.id)}
+                onClick={() => setSelection(model)}
               >
                 Delete
               </button>

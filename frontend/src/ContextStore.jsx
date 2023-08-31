@@ -55,7 +55,7 @@ export default function ContextProvider ({ children }) {
 
     delete: async (url, callBack) => {
       const response = await fetch(url, { method: "delete" })
-      if (response.ok) {
+      if (response.ok && callBack) {
         callBack()
       }
     }
@@ -72,15 +72,17 @@ export default function ContextProvider ({ children }) {
   const [addVehicleModal, setAddVehicleModal] = useState(false)
   const [editVehicleModal, setEditVehicleModal] = useState(false)
   const [addManufacturerModal, setAddManufacturerModal] = useState(false)
-  const [editManufacturerModal, seteditManufacturerModal] = useState(false)
+  const [editManufacturerModal, setEditManufacturerModal] = useState(false)
   const [addModelModal, setAddModelModal] = useState(false)
-  const [editModelModal, seteditModelModal] = useState(false)
+  const [editModelModal, setEditModelModal] = useState(false)
   const [addSaleModal, setAddSaleModal] = useState(false)
   const [editSaleModal, setEditSaleModal] = useState(false)
   const [addEmployeeModal, setAddEmployeeModal] = useState(false)
   const [editEmployeeModal, setEditEmployeeModal] = useState(false)
   const [addAppointmentModal, setAddAppointmentModal] = useState(false)
   const [editAppointmentModal, setEditAppointmentModal] = useState(false)
+  const [deleteModal, setDeleteModal] = useState(false)
+  const [selection, setSelection] = useState(null)
 
   const [selectedVehicle, setSelectedVehicle] = useState({})
   const [selectedSale, setSelectedSale] = useState({})
@@ -138,31 +140,38 @@ export default function ContextProvider ({ children }) {
     loadPendingSales: loadPendingSales,
     loadServiceAppointments: loadServiceAppointments,
 
-    addVehicleModal: addVehicleModal,
-    editVehicleModal: editVehicleModal,
-    addManufacturerModal: addManufacturerModal,
-    editManufacturerModal: editManufacturerModal,
-    addModelModal: addModelModal,
-    editModelModal: editModelModal,
-    addSaleModal: addSaleModal,
-    editSaleModal: editSaleModal,
-    addEmployeeModal: addEmployeeModal,
-    editEmployeeModal: editEmployeeModal,
     addAppointmentModal: addAppointmentModal,
+    addEmployeeModal: addEmployeeModal,
+    addManufacturerModal: addManufacturerModal,
+    addModelModal: addModelModal,
+    addSaleModal: addSaleModal,
+    addVehicleModal: addVehicleModal,
+
     editAppointmentModal: editAppointmentModal,
+    editEmployeeModal: editEmployeeModal,
+    editManufacturerModal: editManufacturerModal,
+    editModelModal: editModelModal,
+    editSaleModal: editSaleModal,
+    editVehicleModal: editVehicleModal,
 
     setAddVehicleModal: setAddVehicleModal,
-    setEditVehicleModal: setEditVehicleModal,
     setAddManufacturerModal: setAddManufacturerModal,
-    seteditManufacturerModal: seteditManufacturerModal,
     setAddModelModal: setAddModelModal,
-    seteditModelModal: seteditModelModal,
     setAddSaleModal: setAddSaleModal,
-    setEditSaleModal: setEditSaleModal,
     setAddEmployeeModal: setAddEmployeeModal,
-    setEditEmployeeModal: setEditEmployeeModal,
     setAddAppointmentModal: setAddAppointmentModal,
+
+    setEditVehicleModal: setEditVehicleModal,
+    setEditManufacturerModal: setEditManufacturerModal,
+    setEditModelModal: setEditModelModal,
+    setEditSaleModal: setEditSaleModal,
+    setEditEmployeeModal: setEditEmployeeModal,
     setEditAppointmentModal: setEditAppointmentModal,
+
+    deleteModal: deleteModal,
+    selection: selection,
+    setDeleteModal: setDeleteModal,
+    setSelection: setSelection,
 
     selectedAppointment: selectedAppointment,
     selectedSale: selectedSale,

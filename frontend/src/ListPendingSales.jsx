@@ -1,23 +1,48 @@
 import { useEffect } from "react"
 import { useStore } from "./ContextStore"
 import AddPendingSale from "./AddPendingSale"
+import DeleteModal from "./DeleteModal"
 
 let ListPendingSales = () => {
 
-  const { pendingSales, loadPendingSales, urls, request, addSaleModal, setAddSaleModal } = useStore()
+  const {
+    pendingSales,
+    loadPendingSales,
+    urls,
+    request,
+    addSaleModal,
+    setAddSaleModal,
+    selection,
+    setSelection,
+    deleteModal,
+    setDeleteModal
+  } = useStore()
 
   useEffect(() => {
     loadPendingSales()
   }, [])
 
-  console.log("in the component", pendingSales)
+  useEffect(() => {
+    selection && setDeleteModal(true)
+  }, [selection])
 
-  const removeSale = (id) => {
-    request.delete(urls.sale(id), loadPendingSales)
-  }
+
+  // const removeSale = (id) => {
+  //   request.delete(urls.sale(id), loadPendingSales)
+  // }
 
   return (
     <div style={{marginTop: "3rem"}}>
+      {deleteModal ?
+        <DeleteModal
+          url={urls.sale(selection.interaction_number)}
+          callback={loadPendingSales}
+          setSelection={setSelection}
+          item={`Potential sale for VIN#-${selection.vehicle.vin} to ${selection.first_name} ${selection.last_name}`}
+          />
+        :
+        null
+      }
       <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
         <h2>Pending Sales</h2>
         <button className="btn btn-success" onClick={() => setAddSaleModal(true)}>Add Sale</button>
@@ -39,7 +64,6 @@ let ListPendingSales = () => {
           let date = new Date(sale.date_and_time).toLocaleDateString()
           let time = new Date(sale.date_and_time).toLocaleTimeString()
           let formattedTime = time.slice(0, time.length - 6) + ' ' + time.slice(time.length-2,time.length)
-          console.log("the sale", sale)
           return (
             <tr key={sale.interaction_number}>
               <td>{sale.interaction_number}</td>
@@ -52,7 +76,7 @@ let ListPendingSales = () => {
               <td>
                 <button
                   className="btn btn-danger"
-                  onClick={() => removeSale(sale.interaction_number)}
+                  onClick={() => setSelection(sale)}
                 >
                   DELETE
                 </button>

@@ -1,21 +1,46 @@
 import { useEffect } from "react";
 import { useStore } from "./ContextStore";
 import AddManufacturer from "./AddManufacturer";
+import DeleteModal from "./DeleteModal";
 
 let ListManufacturers = () => {
 
-  const { manufacturers, loadManufacturers, urls, request, addManufacturerModal, setAddManufacturerModal } = useStore()
+  const {
+    manufacturers,
+    loadManufacturers,
+    urls,
+    addManufacturerModal,
+    setAddManufacturerModal,
+    selection,
+    setSelection,
+    deleteModal,
+    setDeleteModal
+  } = useStore()
 
   useEffect(() => {
     loadManufacturers()
   }, [])
 
-  const removeManufacturer = (id) => {
-    request.delete(urls.manufacturer(id), loadManufacturers)
-  }
+  useEffect(() => {
+    selection && setDeleteModal(true)
+  }, [selection])
+
+  // const removeManufacturer = (id) => {
+  //   request.delete(urls.manufacturer(id), loadManufacturers)
+  // }
 
   return (
     <div style={{marginTop: "3rem"}}>
+      {deleteModal ?
+        <DeleteModal
+          url={urls.manufacturer(selection.id)}
+          callback={loadManufacturers}
+          setSelection={setSelection}
+          item={selection.name}
+          />
+        :
+        null
+      }
       <div style={{display: "flex", flexDirection: "row",  justifyContent: "space-between"}}>
         <h2>Manufacturers</h2>
         <button className="btn btn-success" onClick={() => setAddManufacturerModal(true)}>Add a Manufacturer</button>
@@ -33,7 +58,7 @@ let ListManufacturers = () => {
             <td>
               <button
                 className="btn btn-danger"
-                onClick={() => removeManufacturer(manufacturer.id)}
+                onClick={() => setSelection(manufacturer)}
               >
                 DELETE
               </button>
